@@ -1,77 +1,52 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import NodeContent from './components/NodeContent';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 /**
  * View component is the main layout container for the document viewer
- * It implements a resizable three-panel layout with sidebars and content area
+ * It implements a fixed three-column layout with collapsible PDF viewer
  * 
- * @returns {JSX.Element} - The main application view with resizable panels
+ * @returns {JSX.Element} - The main application view with fixed panels
  */
 const View = () => {
-  // State for panel widths and interaction
-  const [leftWidth, setLeftWidth] = useState(320);
-  const [rightWidth, setRightWidth] = useState(320);
-  const [isDragging, setIsDragging] = useState(false);
+  // Fixed width for the left sidebar
+  const SIDEBAR_WIDTH = 380;
+  
+  // State for PDF viewer panel
+  const [isPdfExpanded, setIsPdfExpanded] = useState(true);
   
   // State for selected document node
   const [selectedNode, setSelectedNode] = useState(null);
   
   /**
-   * Handles the resizing of panels when user drags the dividers
-   * 
-   * @param {Event} event - The mouse event
-   * @param {string} side - Which panel is being resized ('left' or 'right')
+   * Toggles the PDF viewer panel expansion state
    */
-  const handleDrag = (event, side) => {
-    event.preventDefault();
-    setIsDragging(true);
-    
-    const handleMouseMove = (e) => {
-      if (side === 'left') {
-        // Constrain left panel width between 250px and 600px
-        setLeftWidth(Math.max(250, Math.min(600, e.clientX)));
-      } else if (side === 'right') {
-        // Constrain right panel width between 250px and 600px
-        setRightWidth(Math.max(250, Math.min(600, window.innerWidth - e.clientX)));
-      }
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+  const togglePdfPanel = () => {
+    setIsPdfExpanded(!isPdfExpanded);
   };
 
   return (
     <div className="flex h-screen w-full bg-background overflow-hidden">
-      {/* Left sidebar - contains document structure */}
+      {/* Left sidebar - contains document structure (fixed width) */}
       <div 
-        style={{ width: leftWidth }} 
-        className={`h-full bg-card border-r transition-colors duration-200 ease-in-out
-          ${isDragging ? 'select-none' : ''}`}
+        style={{ width: SIDEBAR_WIDTH }} 
+        className="h-full bg-card border-r transition-colors duration-200"
       >
         <div className="h-full overflow-y-auto">
           <Sidebar onNodeSelect={setSelectedNode} />
         </div>
       </div>
       
-      {/* Left resizer - allows adjusting left sidebar width */}
-      <div
-        className={`w-1 hover:w-1.5 bg-border hover:bg-primary/50 cursor-ew-resize 
-          transition-all duration-150 ease-in-out relative group`}
-        onMouseDown={(e) => handleDrag(e, 'left')}
-      >
-        <div className="absolute inset-y-0 -left-2 right-0 group-hover:right-2 cursor-ew-resize" />
-      </div>
-      
       {/* Main content area - displays selected node content */}
-      <div className="flex-1 bg-background h-full overflow-hidden">
-        <div className="h-full p-6">
+      <div 
+        className={`bg-background h-full overflow-hidden transition-all duration-300
+          ${!isPdfExpanded ? 'flex justify-center w-full' : 'w-1/2'}`}
+      >
+        <div 
+          className={`h-full p-6 transition-all duration-300
+            ${!isPdfExpanded ? 'w-3/4 mx-auto' : 'w-full'}`}
+        >
           <div className="rounded-lg border bg-card h-full shadow-sm p-6 overflow-y-auto">
             {selectedNode ? (
               <div>
@@ -87,23 +62,25 @@ const View = () => {
         </div>
       </div>
       
-      {/* Right resizer - allows adjusting right sidebar width */}
-      <div
-        className={`w-1 hover:w-1.5 bg-border hover:bg-primary/50 cursor-ew-resize 
-          transition-all duration-150 ease-in-out relative group`}
-        onMouseDown={(e) => handleDrag(e, 'right')}
+      {/* PDF viewer toggle button */}
+      <button
+        onClick={togglePdfPanel}
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-primary text-primary-foreground p-2 rounded-l-md shadow-md"
+        aria-label={isPdfExpanded ? 'Collapse PDF viewer' : 'Expand PDF viewer'}
       >
-        <div className="absolute inset-y-0 -left-2 right-0 group-hover:right-2 cursor-ew-resize" />
-      </div>
+        {isPdfExpanded ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+      </button>
       
-      {/* Right sidebar - currently empty, can be used for additional features */}
+      {/* Right panel - PDF viewer (collapsible) */}
       <div 
-        style={{ width: rightWidth }} 
-        className={`h-full bg-card border-l transition-colors duration-200 ease-in-out
-          ${isDragging ? 'select-none' : ''}`}
+        className={`h-full bg-card border-l transition-all duration-300
+          ${isPdfExpanded ? 'w-1/2' : 'w-0 opacity-0'}`}
       >
-        <div className="h-full p-4">
-          {/* Add your right sidebar content here */}
+        <div className="h-full p-4 overflow-hidden">
+          {/* PDF viewer content will go here */}
+          <div className="h-full flex items-center justify-center border-2 border-dashed border-muted rounded-md">
+            <p className="text-muted-foreground">PDF Viewer Panel</p>
+          </div>
         </div>
       </div>
     </div>
