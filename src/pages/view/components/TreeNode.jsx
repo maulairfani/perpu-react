@@ -93,9 +93,9 @@ const TreeNode = ({
               ) : null}
             </div>
             
-            {/* Node name */}
+            {/* Node name - show the type and id instead of just the id */}
             <span className="text-sm font-medium truncate">
-              {node.name}
+              {node.type && node.name ? `${node.name}` : node.id}
             </span>
             
             {/* Menu button container - always present but content only visible on hover */}

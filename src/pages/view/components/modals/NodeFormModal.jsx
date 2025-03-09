@@ -16,6 +16,7 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
   // Form state
   const [formData, setFormData] = useState({
     name: '',
+    type: '',
     content: '',
     explanation: ''
   });
@@ -25,6 +26,7 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
     if (initialData) {
       setFormData({
         name: initialData.name || '',
+        type: initialData.type || '',
         content: initialData.content || '',
         explanation: initialData.explanation || ''
       });
@@ -32,6 +34,7 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
       // Reset form when adding new node
       setFormData({
         name: '',
+        type: '',
         content: '',
         explanation: ''
       });
@@ -89,35 +92,55 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
               />
             </div>
 
-            {/* Node content field */}
-            <div>
-              <label htmlFor="content" className="block text-sm font-medium mb-1">
-                Content
-              </label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                rows={4}
-                className="w-full px-3 py-2 border rounded-md bg-background resize-none"
-              />
-            </div>
+            {/* Node type field (hidden, will be set programmatically) */}
+            <input
+              type="hidden"
+              id="type"
+              name="type"
+              value={formData.type}
+            />
+            
+            {/* Content and explanation fields only for Pasal and Ayat */}
+            {(!formData.type || formData.type === 'pasal' || formData.type === 'ayat') && (
+              <>
+                {/* Node content field */}
+                <div>
+                  <label htmlFor="content" className="block text-sm font-medium mb-1">
+                    Content
+                  </label>
+                  <textarea
+                    id="content"
+                    name="content"
+                    value={formData.content}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full px-3 py-2 border rounded-md bg-background resize-none"
+                  />
+                </div>
 
-            {/* Node explanation field */}
-            <div>
-              <label htmlFor="explanation" className="block text-sm font-medium mb-1">
-                Explanation
-              </label>
-              <textarea
-                id="explanation"
-                name="explanation"
-                value={formData.explanation}
-                onChange={handleChange}
-                rows={3}
-                className="w-full px-3 py-2 border rounded-md bg-background resize-none"
-              />
-            </div>
+                {/* Node explanation field */}
+                <div>
+                  <label htmlFor="explanation" className="block text-sm font-medium mb-1">
+                    Explanation
+                  </label>
+                  <textarea
+                    id="explanation"
+                    name="explanation"
+                    value={formData.explanation}
+                    onChange={handleChange}
+                    rows={3}
+                    className="w-full px-3 py-2 border rounded-md bg-background resize-none"
+                  />
+                </div>
+              </>
+            )}
+            
+            {/* Display message for BAB, Bagian, and Paragraf */}
+            {formData.type && ['bab', 'bagian', 'paragraf'].includes(formData.type) && (
+              <div className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
+                {formData.type.charAt(0).toUpperCase() + formData.type.slice(1)} nodes can only have their title edited.
+              </div>
+            )}
           </div>
 
           {/* Form actions */}
