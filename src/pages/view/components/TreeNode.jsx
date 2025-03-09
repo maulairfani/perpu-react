@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { ChevronRight, ChevronDown, FileText } from "lucide-react";
+import useTreeNode from "./hooks/useTreeNode";
+import NodeChildren from "./NodeChildren";
 
-const TreeNode = ({ node, level = 0, isFirst, isLast }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const hasChildren = node.children && node.children.length > 0;
-  const hasContent = node.content && node.explanation;
-
-  const toggleExpand = (e) => {
-    e.stopPropagation();
-    if (hasChildren) setIsExpanded(!isExpanded);
-  };
-
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
+/**
+ * TreeNode component renders a single node in the document tree structure
+ * 
+ * @param {Object} node - The node data to render
+ * @param {number} level - The nesting level of this node (for indentation)
+ * @param {boolean} isFirst - Whether this node is the first child in its parent
+ * @param {boolean} isLast - Whether this node is the last child in its parent
+ * @param {Function} onNodeSelect - Callback function when a node is selected
+ */
+const TreeNode = ({ node, level = 0, isFirst, isLast, onNodeSelect }) => {
+  // Use the custom hook to manage node state and behavior
+  const {
+    isExpanded,
+    isHovered,
+    hasChildren,
+    hasContent,
+    toggleExpand,
+    handleMouseEnter,
+    handleMouseLeave
+  } = useTreeNode(node);
 
   return (
     <div className="relative">
@@ -22,6 +31,7 @@ const TreeNode = ({ node, level = 0, isFirst, isLast }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
+        {/* Node header - clickable area with icon and name */}
         <div
           className={`
             flex items-center py-2 px-3 rounded-md select-none
@@ -29,9 +39,16 @@ const TreeNode = ({ node, level = 0, isFirst, isLast }) => {
             ${hasChildren || hasContent ? 'cursor-pointer' : ''}
             ${isHovered ? 'bg-accent' : 'hover:bg-accent/50'}
           `}
-          onClick={toggleExpand}
+          onClick={() => {
+            toggleExpand();
+            // If node has content, notify parent component about selection
+            if (hasContent) {
+              onNodeSelect && onNodeSelect(node);
+            }
+          }}
         >
           <div className="flex items-center flex-1 min-w-0">
+            {/* Node icon - changes based on node state */}
             <div className="w-4 h-4 mr-2 flex-shrink-0">
               {hasChildren ? (
                 isExpanded ? (
@@ -44,42 +61,20 @@ const TreeNode = ({ node, level = 0, isFirst, isLast }) => {
               ) : null}
             </div>
             
+            {/* Node name */}
             <span className="text-sm font-medium truncate">
               {node.name}
             </span>
           </div>
         </div>
 
-        {/* Content Preview */}
-        {hasContent && isExpanded && (
-          <div className="ml-6 mt-2 mb-3 pl-4 border-l border-border">
-            <div className="space-y-3">
-              <div className="bg-muted/50 rounded-md p-3">
-                <p className="text-sm text-foreground/90">{node.content}</p>
-              </div>
-              {node.explanation && (
-                <div className="bg-secondary/50 rounded-md p-3">
-                  <p className="text-sm text-muted-foreground">{node.explanation}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Children */}
+        {/* Render children nodes when expanded */}
         {isExpanded && hasChildren && (
-          <div className="relative ml-4">
-            <div className="absolute left-0 top-3 bottom-3 w-px bg-border"></div>
-            {node.children.map((childNode, index) => (
-              <TreeNode
-                key={index}
-                node={childNode}
-                level={level + 1}
-                isFirst={index === 0}
-                isLast={index === node.children.length - 1}
-              />
-            ))}
-          </div>
+          <NodeChildren 
+            node={node} 
+            level={level} 
+            onNodeSelect={onNodeSelect} 
+          />
         )}
       </div>
     </div>
