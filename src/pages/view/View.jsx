@@ -54,7 +54,6 @@ const View = () => {
           <div className="rounded-lg border bg-card h-full shadow-sm p-6 overflow-y-auto">
             {selectedNode ? (
               <div>
-                <h2 className="text-xl font-semibold mb-4">{selectedNode.name}</h2>
                 <NodeContent node={selectedNode} />
               </div>
             ) : (

@@ -169,32 +169,44 @@ export default function NodeContent({ node }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Display hierarchy path */}
-      <div className="text-center mb-8">
-        {hierarchyPath.map((pathNode, index) => (
-          <div key={index} className={`${index === 0 ? 'text-2xl font-bold' : index === 1 ? 'text-xl font-semibold' : 'text-lg font-medium'} ${index > 0 ? 'mt-2' : ''}`}>
-            {getNodeDisplayText(pathNode)}
-          </div>
-        ))}
+      <div className="text-center mb-10 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 py-6 rounded-lg shadow-sm">
+        {hierarchyPath
+          .filter(pathNode => pathNode !== pasalNode) // Exclude the current Pasal node
+          .map((pathNode, index) => (
+            <div key={index} className={`${index === 0 ? 'text-2xl font-bold' : index === 1 ? 'text-xl font-semibold' : 'text-lg font-medium'} ${index > 0 ? 'mt-3' : ''}`}>
+              {getNodeDisplayText(pathNode)}
+            </div>
+          ))}
       </div>
       
       {/* Display content in a format similar to legal documents */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {contents.map((item, index) => (
-          <div key={index} className="p-4 border-l-4 border-primary/20 bg-muted/30 rounded-md">
+          <div key={index} className="rounded-lg overflow-hidden shadow-md border border-border">
             {/* Section title */}
-            <h3 className="font-medium mb-2">{item.title}</h3>
+            <div className="bg-primary/10 px-6 py-3 border-b">
+              <h3 className="font-semibold text-primary">{item.title}</h3>
+            </div>
             
             {/* Main content text */}
-            {item.content && (
-              <p className="text-foreground">{item.content}</p>
-            )}
-            
-            {/* Optional explanation */}
-            {item.explanation && (
-              <p className="mt-2 text-muted-foreground italic text-sm">{item.explanation}</p>
-            )}
+            <div className="p-6 bg-card">
+              {item.content && (
+                <p className="text-foreground leading-relaxed">{item.content}</p>
+              )}
+              
+              {/* Optional explanation - clearly separated */}
+              {item.explanation && (
+                <div className="mt-4 pt-4 border-t border-dashed border-muted">
+                  <div className="flex items-center gap-2 mb-2 text-muted-foreground">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <span className="font-medium text-sm">Penjelasan</span>
+                  </div>
+                  <p className="text-muted-foreground text-sm pl-6">{item.explanation}</p>
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
