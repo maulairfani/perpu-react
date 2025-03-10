@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import NodeContent from './components/NodeContent';
+import PDFViewer from './components/PDFViewer';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import pdf from './components/UU0182003.pdf?url'
 
 /**
  * View component is the main layout container for the document viewer
@@ -26,6 +28,8 @@ const View = () => {
     setIsPdfExpanded(!isPdfExpanded);
   };
 
+  // Use local PDF file to avoid CORS issues
+  const pdfUrl = pdf;
   return (
     <div className="flex h-screen w-full bg-background overflow-hidden">
       {/* Left sidebar - contains document structure (fixed width) */}
@@ -41,7 +45,7 @@ const View = () => {
       {/* Main content area - displays selected node content */}
       <div 
         className={`bg-background h-full overflow-hidden transition-all duration-300
-          ${!isPdfExpanded ? 'flex justify-center w-full' : 'w-1/2'}`}
+          ${!isPdfExpanded ? 'flex justify-center w-full' : 'flex-1'}`}
       >
         <div 
           className={`h-full p-6 transition-all duration-300
@@ -74,13 +78,11 @@ const View = () => {
       {/* Right panel - PDF viewer (collapsible) */}
       <div 
         className={`h-full bg-card border-l transition-all duration-300
-          ${isPdfExpanded ? 'w-1/2' : 'w-0 opacity-0'}`}
+          ${isPdfExpanded ? 'flex-1' : 'w-0 opacity-0'}`}
       >
-        <div className="h-full p-4 overflow-hidden">
-          {/* PDF viewer content will go here */}
-          <div className="h-full flex items-center justify-center border-2 border-dashed border-muted rounded-md">
-            <p className="text-muted-foreground">PDF Viewer Panel</p>
-          </div>
+        <div className="h-full overflow-hidden">
+          {/* PDF viewer component */}
+          <PDFViewer pdfUrl={pdfUrl} />
         </div>
       </div>
     </div>
