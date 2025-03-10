@@ -1,150 +1,119 @@
 import React, { useState } from "react";
 import TreeNode from "./TreeNode";
 import { useTree } from "./context/TreeContext";
-import NodeFormModal from "./modals/NodeFormModal";
-import DeleteConfirmationModal from "./modals/DeleteConfirmationModal";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-/**
- * TreeView component renders the entire document structure as a hierarchical tree
- * Includes functionality for adding, editing, and deleting nodes
- * 
- * @param {Function} onNodeSelect - Callback function when a node is selected
- * @returns {JSX.Element} - Rendered tree structure with document nodes
- */
-const TreeView = ({ onNodeSelect }) => {
-  // Get tree data and operations from context
-  const { treeData, addNode, editNode, deleteNode } = useTree();
-  
-  // State for modals
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedNodePath, setSelectedNodePath] = useState([]);
-  const [selectedNode, setSelectedNode] = useState(null);
-  
-  /**
-   * Handle opening the add node modal
-   * 
-   * @param {Object} parentNode - The parent node to add a child to
-   * @param {Array} parentPath - Path to the parent node
-   */
-  const handleAddNode = (parentNode, parentPath) => {
-    setSelectedNodePath(parentPath);
-    setIsAddModalOpen(true);
-  };
-  
-  /**
-   * Handle opening the edit node modal
-   * 
-   * @param {Object} node - The node to edit
-   * @param {Array} path - Path to the node
-   */
-  const handleEditNode = (node, path) => {
-    setSelectedNode(node);
-    setSelectedNodePath(path);
-    setIsEditModalOpen(true);
-  };
-  
-  /**
-   * Handle opening the delete confirmation modal
-   * 
-   * @param {Object} node - The node to delete
-   * @param {Array} path - Path to the node
-   */
-  const handleDeleteNode = (node, path) => {
-    setSelectedNode(node);
-    setSelectedNodePath(path);
-    setIsDeleteModalOpen(true);
-  };
-  
-  /**
-   * Handle submitting the add node form
-   * 
-   * @param {Object} formData - The form data for the new node
-   */
-  const handleAddSubmit = (formData) => {
-    addNode(selectedNodePath, formData);
-    setIsAddModalOpen(false);
-  };
-  
-  /**
-   * Handle submitting the edit node form
-   * 
-   * @param {Object} formData - The updated form data for the node
-   */
-  const handleEditSubmit = (formData) => {
-    editNode(selectedNodePath, formData);
-    setIsEditModalOpen(false);
-  };
-  
-  /**
-   * Handle confirming node deletion
-   */
-  const handleDeleteConfirm = () => {
-    deleteNode(selectedNodePath);
-    setIsDeleteModalOpen(false);
-  };
+const TreeView = ({ onNodeSelect, onAddNode, onEditNode, onDeleteNode }) => {
+  const { treeData } = useTree();
+  const [isMetadataExpanded, setIsMetadataExpanded] = useState(false);
+  const [isHistoryExpanded, setIsHistoryExpanded] = useState(false);
+  const [isStructureExpanded, setIsStructureExpanded] = useState(true);
+
   return (
     <div className="p-6 h-full">
-      <div className="space-y-2">
-        {/* Header section with title and document type */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold tracking-tight">
-            Document Structure
-          </h2>
-          <div className="rounded-md bg-secondary px-2.5 py-1.5 text-xs font-medium text-secondary-foreground">
-            UU ITE
+      <div className="space-y-6">
+        {/* Header section with document number */}
+        <div className="px-3 py-1 border border-border/10 shadow-sm rounded-xl bg-primary/10">
+          <div className="flex flex-col space-y-1">
+            <div className="text-sm font-semibold text-primary-foreground/90">
+              Undang-Undang
+            </div>
+            <div className="text-[11px] text-muted-foreground">
+              No. 5 Tahun 2017
+            </div>
           </div>
         </div>
-        
-        {/* Tree nodes container */}
-        <div className="space-y-1">
-          {treeData.map((node, index) => (
-            <TreeNode 
-              key={index} 
-              node={node} 
-              isFirst={index === 0}
-              isLast={index === treeData.length - 1}
-              onNodeSelect={onNodeSelect}
-              onAddNode={handleAddNode}
-              onEditNode={handleEditNode}
-              onDeleteNode={handleDeleteNode}
-              nodePath={[index]}
-            />
-          ))}
+
+        {/* Metadata card */}
+        <div className="bg-card/50 backdrop-blur-sm rounded-xl border border-border/10 overflow-hidden">
+          {/* Metadata section */}
+          <button 
+            onClick={() => setIsMetadataExpanded(!isMetadataExpanded)}
+            className="w-full flex items-center justify-between p-3 bg-card/50 hover:bg-primary/10 transition-colors duration-200"
+          >
+            <h3 className="text-xs font-semibold text-primary-foreground">Metadata Dokumen</h3>
+            {isMetadataExpanded ? (
+              <ChevronUp className="w-3 h-3 text-primary-foreground/70" />
+            ) : (
+              <ChevronDown className="w-3 h-3 text-primary-foreground/70" />
+            )}
+          </button>
+          {isMetadataExpanded && (
+            <div className="p-3 space-y-2">
+              <div className="flex justify-between text-[11px]">
+                <span className="text-muted-foreground">Nama</span>
+                <span className="text-foreground/90 text-right">Pelaksanaan Piloting Penerapan Tanda Tangan Elektronik Dan Penyampaian Dokumen Elektronik Melalui Aplikasi Surat Perintah Membayar Elektronik</span>
+              </div>
+              <div className="flex justify-between text-[11px]">
+                <span className="text-muted-foreground">Jenis</span>
+                <span className="text-foreground/90">Peraturan Menteri Keuangan</span>
+              </div>
+              <div className="flex justify-between text-[11px]">
+                <span className="text-muted-foreground">Nomor</span>
+                <span className="text-foreground/90">177/PMK.05/2017</span>
+              </div>
+              <div className="flex justify-between text-[11px]">
+                <span className="text-muted-foreground">Tahun</span>
+                <span className="text-foreground/90">2017</span>
+              </div>
+            </div>
+          )}
+
+          {/* Change history section */}
+          <button 
+            onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
+            className="w-full flex items-center justify-between p-3 bg-card/50 hover:bg-primary/10 transition-colors duration-200 border-t border-border/10"
+          >
+            <h3 className="text-xs font-semibold text-primary-foreground">Riwayat Perubahan</h3>
+            {isHistoryExpanded ? (
+              <ChevronUp className="w-3 h-3 text-primary-foreground/70" />
+            ) : (
+              <ChevronDown className="w-3 h-3 text-primary-foreground/70" />
+            )}
+          </button>
+          {isHistoryExpanded && (
+            <div className="p-3">
+              <div className="text-[11px] text-muted-foreground italic">
+                Belum ada status perubahan
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Document structure section */}
+        <div className="bg-card/50 backdrop-blur-sm rounded-xl border border-border/10 overflow-hidden">
+          <button 
+            onClick={() => setIsStructureExpanded(!isStructureExpanded)}
+            className="w-full flex items-center justify-between p-3 bg-card/50 hover:bg-primary/10 transition-colors duration-200"
+          >
+            <h3 className="text-xs font-semibold text-primary-foreground">Struktur Dokumen</h3>
+            {isStructureExpanded ? (
+              <ChevronUp className="w-3 h-3 text-primary-foreground/70" />
+            ) : (
+              <ChevronDown className="w-3 h-3 text-primary-foreground/70" />
+            )}
+          </button>
+          {isStructureExpanded && (
+            <div className="p-3">
+              <div className="space-y-1">
+                {treeData.map((node, index) => (
+                  <TreeNode 
+                    key={index} 
+                    node={node} 
+                    isFirst={index === 0}
+                    isLast={index === treeData.length - 1}
+                    onNodeSelect={onNodeSelect}
+                    onAddNode={onAddNode}
+                    onEditNode={onEditNode}
+                    onDeleteNode={onDeleteNode}
+                    nodePath={[index]}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      
-      {/* Footer with instructions */}
-      <div className="mt-6 pt-6 border-t">
-        <p className="text-xs text-muted-foreground">
-          Click on a node to view its content and explanation
-        </p>
-      </div>
-      
-      {/* Modals for node management */}
-      <NodeFormModal 
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSubmit={handleAddSubmit}
-        initialData={null}
-        title="Add Node"
-      />
-      
-      <NodeFormModal 
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        onSubmit={handleEditSubmit}
-        initialData={selectedNode}
-        title="Edit Node"
-      />
-      
-      <DeleteConfirmationModal 
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={handleDeleteConfirm}
-        node={selectedNode}
-      />
     </div>
   );
 };

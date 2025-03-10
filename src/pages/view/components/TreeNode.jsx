@@ -66,14 +66,13 @@ const TreeNode = ({
         {/* Node header - clickable area with icon and name */}
         <div
           className={`
-            flex items-center py-2 px-3 rounded-md select-none
-            transition-colors duration-150 ease-in-out
+            flex items-center py-2 px-3 rounded-lg select-none
+            transition-all duration-200 ease-in-out
             ${hasChildren || hasContent ? 'cursor-pointer' : ''}
-            ${isHovered ? 'bg-accent' : 'hover:bg-accent/50'}
+            ${isHovered ? 'bg-accent/30 backdrop-blur-sm shadow-sm' : 'hover:bg-accent/20'}
           `}
           onClick={() => {
             toggleExpand();
-            // If node has content, notify parent component about selection
             if (hasContent) {
               onNodeSelect && onNodeSelect(node);
             }
@@ -84,69 +83,69 @@ const TreeNode = ({
             <div className="w-4 h-4 mr-2 flex-shrink-0">
               {hasChildren ? (
                 isExpanded ? (
-                  <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform duration-150" />
+                  <ChevronDown className="w-3 h-3 text-primary/70 transition-transform duration-200" />
                 ) : (
-                  <ChevronRight className="w-4 h-4 text-muted-foreground transition-transform duration-150" />
+                  <ChevronRight className="w-3 h-3 text-primary/70 transition-transform duration-200" />
                 )
               ) : hasContent ? (
-                <FileText className="w-4 h-4 text-muted-foreground" />
+                <FileText className="w-3 h-3 text-primary/70" />
               ) : null}
             </div>
             
-            {/* Node name - show the type and id instead of just the id */}
-            <span className="text-sm font-medium truncate">
+            {/* Node name with refined typography */}
+            <span className="text-[11px] font-medium text-foreground/90 truncate">
               {node.type && node.name ? `${node.name}` : node.id}
             </span>
             
-            {/* Menu button container - always present but content only visible on hover */}
-            <div className="ml-auto h-6 w-6 flex items-center justify-center" ref={menuRef}>
+            {/* Menu button container with modern styling */}
+            <div className="ml-auto h-4 w-4 flex items-center justify-center" ref={menuRef}>
               {isHovered && (
                 <button
-                  className="p-1 rounded-sm hover:bg-accent-foreground/10 text-muted-foreground hover:text-foreground"
+                  className="p-0.5 rounded-md hover:bg-primary/10 text-primary/70 hover:text-primary transition-colors duration-200"
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsMenuOpen(!isMenuOpen);
                   }}
                   title="Actions"
                 >
-                  <MoreVertical size={14} />
+                  <MoreVertical size={10} />
                 </button>
               )}
               
-              {/* Popover menu */}
+              {/* Popover menu with modern styling */}
               {isMenuOpen && (
-                <div className="absolute right-0 mt-1 w-36 bg-white rounded-md shadow-lg z-10 py-1 border">
+                <div className="absolute right-0 mt-1 w-32 bg-card/95 backdrop-blur-sm rounded-lg shadow-lg z-10 py-1 border border-border/10">
                   <button
-                    className="w-full text-left px-4 py-2 text-sm hover:bg-accent flex items-center gap-2 text-foreground"
+                    className="w-full text-left px-3 py-1.5 text-[11px] hover:bg-primary/10 flex items-center gap-2 text-foreground/90 transition-colors duration-200"
                     onClick={(e) => {
                       e.stopPropagation();
                       onAddNode && onAddNode(node, nodePath);
                       setIsMenuOpen(false);
                     }}
                   >
-                    <Plus size={14} />
+                    <Plus size={10} className="text-primary/70" />
                     Add child
                   </button>
                   <button
-                    className="w-full text-left px-4 py-2 text-sm hover:bg-accent flex items-center gap-2 text-foreground"
+                    className="w-full text-left px-3 py-1.5 text-[11px] hover:bg-primary/10 flex items-center gap-2 text-foreground/90 transition-colors duration-200"
                     onClick={(e) => {
                       e.stopPropagation();
                       onEditNode && onEditNode(node, nodePath);
                       setIsMenuOpen(false);
                     }}
                   >
-                    <Edit size={14} />
+                    <Edit size={10} className="text-primary/70" />
                     Edit
                   </button>
                   <button
-                    className="w-full text-left px-4 py-2 text-sm hover:bg-destructive hover:text-destructive-foreground flex items-center gap-2 text-destructive"
+                    className="w-full text-left px-3 py-1.5 text-[11px] hover:bg-destructive/10 flex items-center gap-2 text-destructive/90 transition-colors duration-200"
                     onClick={(e) => {
                       e.stopPropagation();
                       onDeleteNode && onDeleteNode(node, nodePath);
                       setIsMenuOpen(false);
                     }}
                   >
-                    <Trash2 size={14} />
+                    <Trash2 size={10} />
                     Delete
                   </button>
                 </div>
@@ -155,7 +154,7 @@ const TreeNode = ({
           </div>
         </div>
 
-        {/* Render children nodes when expanded */}
+        {/* Children nodes with updated styling */}
         {isExpanded && hasChildren && (
           <NodeChildren 
             node={node} 

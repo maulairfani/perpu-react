@@ -8,7 +8,13 @@ import { useState } from 'react';
  */
 export default function useTreeNode(node) {
   // Track expansion state (whether children are visible)
-  const [isExpanded, setIsExpanded] = useState(false);
+  // Default to expanded for BAB, Bagian, and Paragraf nodes
+  const [isExpanded, setIsExpanded] = useState(() => {
+    if (!node.type) return false;
+    // Auto-expand all nodes except Pasal and Ayat
+    return ['bab', 'bagian', 'paragraf'].includes(node.type.toLowerCase());
+  });
+
   // Track hover state for styling
   const [isHovered, setIsHovered] = useState(false);
 
