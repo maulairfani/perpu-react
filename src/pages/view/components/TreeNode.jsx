@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ChevronRight, ChevronDown, FileText, Plus, Edit, Trash2, MoreVertical } from "lucide-react";
+import { ChevronRight, ChevronDown, FileText, Plus, Edit, Trash2, MoreHorizontal } from "lucide-react";
 import useTreeNode from "./hooks/useTreeNode";
 import NodeChildren from "./NodeChildren";
 
@@ -101,20 +101,20 @@ const TreeNode = ({
             <div className="ml-auto h-4 w-4 flex items-center justify-center" ref={menuRef}>
               {isHovered && (
                 <button
-                  className="p-0.5 rounded-md hover:bg-primary/10 text-primary hover:text-primary/80 transition-colors duration-200"
+                  className="p-0.5 rounded-md bg-white hover:bg-primary/10 text-primary hover:text-primary/80 transition-colors duration-200"
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsMenuOpen(!isMenuOpen);
                   }}
                   title="Actions"
                 >
-                  <MoreVertical size={10} />
+                  <MoreHorizontal size={10} />
                 </button>
               )}
               
               {/* Popover menu with modern styling */}
               {isMenuOpen && (
-                <div className="absolute right-0 mt-1 w-32 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg z-10 py-1 border border-border/10">
+                <div className="absolute right-0 mt-1 w-32 bg-white rounded-lg shadow-lg z-10 py-1 border border-border/10">
                   <button
                     className="w-full text-left px-3 py-1.5 text-[11px] hover:bg-primary/10 flex items-center gap-2 text-foreground/90 transition-colors duration-200"
                     onClick={(e) => {

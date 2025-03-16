@@ -12,17 +12,6 @@ const TreeView = ({ onNodeSelect, onAddNode, onEditNode, onDeleteNode }) => {
   return (
     <div className="p-6 h-full bg-background/95 backdrop-blur-sm">
       <div className="space-y-6">
-        {/* Header section with document number */}
-        <div className="px-4 py-3 border border-border/10 shadow-sm rounded-xl bg-white/95 backdrop-blur-sm hover:shadow-md transition-all duration-200">
-          <div className="flex flex-col space-y-1.5">
-            <div className="text-sm font-semibold text-primary">
-              Undang-Undang
-            </div>
-            <div className="text-sm font-medium text-foreground/80">
-              No. 5 Tahun 2017
-            </div>
-          </div>
-        </div>
 
         {/* Metadata card */}
         <div className="bg-white/95 backdrop-blur-sm rounded-xl border border-border/10 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200">
