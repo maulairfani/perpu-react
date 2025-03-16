@@ -169,7 +169,7 @@ export default function NodeContent({ node }) {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto px-4">
+    <div className="space-y-8 max-w-5xl mx-auto px-4 h-full overflow-y-auto">
       {/* Hierarchy path with modern styling */}
       <nav className="mb-8">
         <ol className="flex flex-wrap gap-2 items-center justify-center text-xs font-medium">
@@ -202,23 +202,23 @@ export default function NodeContent({ node }) {
       </nav>
 
       {/* Content cards with modern styling */}
-      <div className="grid gap-8">
+      <div className="grid gap-8 pb-8">
         {contents.map((item, index) => (
           <div 
             key={index} 
-            className="bg-card/50 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-border/10"
+            className="bg-white rounded-xl overflow-hidden shadow-lg border border-border/20"
           >
             {/* Section header */}
-            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-6 py-4 border-b border-border/10">
-              <h3 className="font-medium text-sm text-primary-foreground/90">{item.title}</h3>
+            <div className="bg-gradient-to-r from-blue-700 to-blue-400 px-6 py-4 border-b border-border/20">
+              <h3 className="font-semibold text-sm text-white">{item.title}</h3>
             </div>
 
             {/* Content section */}
             <div className="p-6 space-y-6">
               {/* Main content */}
               {item.content && (
-                <div className="prose prose-sm dark:prose-invert max-w-none">
-                  <div className="bg-muted/10 backdrop-blur-sm rounded-lg p-4 leading-relaxed text-foreground/90">
+                <div className="prose prose-sm max-w-none">
+                  <div className="bg-white rounded-lg p-4 leading-relaxed text-foreground border border-border/20">
                     {item.content}
                   </div>
                 </div>
@@ -227,8 +227,8 @@ export default function NodeContent({ node }) {
               {/* Explanation section */}
               {item.explanation && (
                 <div className="space-y-3">
-                  <h4 className="text-xs font-medium text-muted-foreground/80">Penjelasan:</h4>
-                  <div className="prose prose-sm dark:prose-invert max-w-none bg-background/30 backdrop-blur-sm rounded-lg p-4 border border-border/5 text-foreground/80">
+                  <h4 className="text-xs font-semibold text-foreground/80">Penjelasan:</h4>
+                  <div className="prose prose-sm max-w-none bg-muted/30 rounded-lg p-4 border border-border/20 text-foreground">
                     {item.explanation}
                   </div>
                 </div>

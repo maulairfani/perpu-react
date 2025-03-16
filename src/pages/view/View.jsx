@@ -112,18 +112,18 @@ const View = () => {
       
       {/* Main content area - displays selected node content */}
       <div 
-        className={`bg-background/90 dark:bg-background/40 h-full overflow-hidden transition-all duration-300 ${isPdfExpanded ? 'w-1/2' : 'flex-1'}`}
+        className={`bg-background h-full overflow-hidden transition-all duration-300 ${isPdfExpanded ? 'w-1/2' : 'flex-1'}`}
       >
         <div 
-          className="h-full p-6 transition-all duration-300 w-full bg-muted/30 dark:bg-muted/10"
+          className="h-full p-6 transition-all duration-300 w-full bg-white overflow-hidden"
         >
-          <div className="rounded-xl border border-border/10 bg-card/95 backdrop-blur-sm h-full shadow-md hover:shadow-lg transition-shadow duration-300 p-6 overflow-y-auto">
+          <div className="rounded-xl border border-border/20 bg-white shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full overflow-y-auto">
             {selectedNode ? (
-              <div>
+              <div className="h-full">
                 <NodeContent node={selectedNode} />
               </div>
             ) : (
-              <div className="flex items-center justify-center h-full text-muted-foreground">
+              <div className="flex items-center justify-center h-full text-foreground/80">
                 <p>Select a node from the sidebar to view its content</p>
               </div>
             )}

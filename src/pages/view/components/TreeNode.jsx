@@ -69,7 +69,7 @@ const TreeNode = ({
             flex items-center py-2 px-3 rounded-lg select-none
             transition-all duration-200 ease-in-out
             ${hasChildren || hasContent ? 'cursor-pointer' : ''}
-            ${isHovered ? 'bg-accent/30 backdrop-blur-sm shadow-sm' : 'hover:bg-accent/20'}
+            ${isHovered ? 'bg-primary/10 backdrop-blur-sm shadow-sm' : 'hover:bg-primary/5'}
           `}
           onClick={() => {
             toggleExpand();
@@ -83,17 +83,17 @@ const TreeNode = ({
             <div className="w-4 h-4 mr-2 flex-shrink-0">
               {hasChildren ? (
                 isExpanded ? (
-                  <ChevronDown className="w-3 h-3 text-primary/70 transition-transform duration-200" />
+                  <ChevronDown className="w-3 h-3 text-primary transition-transform duration-200" />
                 ) : (
-                  <ChevronRight className="w-3 h-3 text-primary/70 transition-transform duration-200" />
+                  <ChevronRight className="w-3 h-3 text-primary transition-transform duration-200" />
                 )
               ) : hasContent ? (
-                <FileText className="w-3 h-3 text-primary/70" />
+                <FileText className="w-3 h-3 text-primary" />
               ) : null}
             </div>
             
             {/* Node name with refined typography */}
-            <span className="text-[11px] font-medium text-foreground/90 truncate">
+            <span className="text-[14px] font-medium text-foreground/90 truncate">
               {node.type && node.name ? `${node.name}` : node.id}
             </span>
             
@@ -101,7 +101,7 @@ const TreeNode = ({
             <div className="ml-auto h-4 w-4 flex items-center justify-center" ref={menuRef}>
               {isHovered && (
                 <button
-                  className="p-0.5 rounded-md hover:bg-primary/10 text-primary/70 hover:text-primary transition-colors duration-200"
+                  className="p-0.5 rounded-md hover:bg-primary/10 text-primary hover:text-primary/80 transition-colors duration-200"
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsMenuOpen(!isMenuOpen);
@@ -114,7 +114,7 @@ const TreeNode = ({
               
               {/* Popover menu with modern styling */}
               {isMenuOpen && (
-                <div className="absolute right-0 mt-1 w-32 bg-card/95 backdrop-blur-sm rounded-lg shadow-lg z-10 py-1 border border-border/10">
+                <div className="absolute right-0 mt-1 w-32 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg z-10 py-1 border border-border/10">
                   <button
                     className="w-full text-left px-3 py-1.5 text-[11px] hover:bg-primary/10 flex items-center gap-2 text-foreground/90 transition-colors duration-200"
                     onClick={(e) => {

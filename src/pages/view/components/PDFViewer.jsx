@@ -88,25 +88,25 @@ const PDFViewer = ({ pdfUrl }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-2 border-b bg-muted/30">
+      <div className="flex items-center justify-between p-2 border-b bg-accent/50 text-foreground shadow-sm">
         <div className="flex items-center space-x-2">
           <button
             onClick={goToPrevPage}
             disabled={pageNum <= 1}
-            className="p-1 rounded-md hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-1 rounded-md hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed text-foreground"
             aria-label="Previous page"
           >
             <ChevronLeft size={18} />
           </button>
           
-          <span className="text-sm">
+          <span className="text-sm font-medium">
             Page {pageNum} of {pageCount}
           </span>
           
           <button
             onClick={goToNextPage}
             disabled={pageNum >= pageCount}
-            className="p-1 rounded-md hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-1 rounded-md hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed text-foreground"
             aria-label="Next page"
           >
             <ChevronRight size={18} />
@@ -116,19 +116,19 @@ const PDFViewer = ({ pdfUrl }) => {
         <div className="flex items-center space-x-2">
           <button
             onClick={zoomOut}
-            className="p-1 rounded-md hover:bg-accent"
+            className="p-1 rounded-md hover:bg-primary/10 text-foreground"
             aria-label="Zoom out"
           >
             <ZoomOut size={18} />
           </button>
           
-          <span className="text-sm">
+          <span className="text-sm font-medium">
             {Math.round(scale * 100)}%
           </span>
           
           <button
             onClick={zoomIn}
-            className="p-1 rounded-md hover:bg-accent"
+            className="p-1 rounded-md hover:bg-primary/10 text-foreground"
             aria-label="Zoom in"
           >
             <ZoomIn size={18} />
