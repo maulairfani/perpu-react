@@ -25,7 +25,7 @@ const TreeView = ({ onNodeSelect, onAddNode, onEditNode, onDeleteNode }) => {
           <div className="space-y-2">
             {treeData.map((node, index) => (
               <TreeNode 
-                key={index} 
+                key={`node-${index}-${node.title || node.name}`}
                 node={node} 
                 isFirst={index === 0}
                 isLast={index === treeData.length - 1}

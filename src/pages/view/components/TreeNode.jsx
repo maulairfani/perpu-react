@@ -22,11 +22,11 @@ const TreeNode = ({
     handleMouseEnter,
     handleMouseLeave
   } = useTreeNode(node);
-  
+
   // State for popover menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -34,12 +34,16 @@ const TreeNode = ({
         setIsMenuOpen(false);
       }
     };
-    
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // Derive nodeTitle from node object.  This is a crucial addition.
+  const nodeTitle = node.type && node.name ? `${node.name}` : node.id;
+
 
   return (
     <div className="relative">
@@ -76,12 +80,12 @@ const TreeNode = ({
                 <FileText className="w-3 h-3 text-primary" />
               ) : null}
             </div>
-            
+
             {/* Node name with refined typography */}
-            <span className="text-[14px] font-medium text-foreground/90 truncate">
-              {node.type && node.name ? `${node.name}` : node.id}
+            <span className="text-[14px] font-medium text-foreground/90 truncate" onClick={() => onNodeSelect(node)}>
+              {nodeTitle}
             </span>
-            
+
             {/* Menu button container with modern styling */}
             <div className="ml-auto h-4 w-4 flex items-center justify-center" ref={menuRef}>
               {isHovered && (
@@ -96,7 +100,7 @@ const TreeNode = ({
                   <MoreHorizontal size={10} />
                 </button>
               )}
-              
+
               {/* Popover menu with modern styling */}
               {isMenuOpen && (
                 <div className="absolute right-0 mt-1 w-32 bg-white rounded-lg shadow-lg z-10 py-1 border border-border/10">
@@ -143,7 +147,7 @@ const TreeNode = ({
         {isExpanded && hasChildren && (
           <NodeChildren 
             node={node} 
-            level={level} 
+            level={level + 1} 
             onNodeSelect={onNodeSelect}
             onAddNode={onAddNode}
             onEditNode={onEditNode}
