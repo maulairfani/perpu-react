@@ -8,7 +8,12 @@ const Upload = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const onDrop = useCallback((acceptedFiles) => {
-    setFiles((prev) => [...prev, ...acceptedFiles]);
+    const pdfFiles = acceptedFiles.filter(file => file.type === 'application/pdf');
+    if (pdfFiles.length !== acceptedFiles.length) {
+      alert('Only PDF files are allowed');
+      return;
+    }
+    setFiles((prev) => [...prev, ...pdfFiles]);
     
     // Simulate file upload for each file
     acceptedFiles.forEach((file) => {
@@ -64,6 +69,7 @@ const Upload = () => {
           <input
             type="file"
             multiple
+            accept=".pdf,application/pdf"
             onChange={handleFileSelect}
             className="hidden"
             id="file-upload"
@@ -78,7 +84,7 @@ const Upload = () => {
             or drag and drop files here
           </p>
           <p className="text-xs text-muted-foreground">
-            Supported formats: PDF, DOCX, XLS, XLSX
+            Supported format: PDF only
           </p>
         </div>
       </div>
