@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FileText, Menu, User, Settings, Search, Upload, LogOut } from 'lucide-react';
+import { FileText, Menu, User, Settings, Search, Upload, LogOut, BookOpen, History, Star, Database, Boxes, Phone, MessageSquare, HelpCircle } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 
@@ -27,25 +27,87 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
         </div>
 
         {/* Main menu */}
-        <div className="flex flex-col gap-1 py-4">
-          <Link
-            to="/"
-            className={`flex items-center gap-3 mx-2 px-3 py-2 rounded-md ${
-              location.pathname === '/' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
-            }`}
-          >
-            <FileText size={20} />
-            {!isSidebarCollapsed && <span>Documents</span>}
-          </Link>
-          <Link
-            to="/upload"
-            className={`flex items-center gap-3 mx-2 px-3 py-2 rounded-md ${
-              location.pathname === '/upload' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
-            }`}
-          >
-            <Upload size={20} />
-            {!isSidebarCollapsed && <span>Unggah Dokumen</span>}
-          </Link>
+        <div className="flex flex-col gap-4 py-4">
+          {/* Platform section */}
+          <div className="px-4">
+            <div className="text-xs font-medium text-muted-foreground mb-2">Platform</div>
+            <div className="flex flex-col gap-1">
+              <Link
+                to="/"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md ${
+                  location.pathname === '/' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
+                }`}
+              >
+                <BookOpen size={18} />
+                {!isSidebarCollapsed && <span>Dokumen</span>}
+              </Link>
+              <Link
+                to="/history"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
+              >
+                <History size={18} />
+                {!isSidebarCollapsed && <span>Riwayat</span>}
+              </Link>
+              <Link
+                to="/starred"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
+              >
+                <Star size={18} />
+                {!isSidebarCollapsed && <span>Berbintang</span>}
+              </Link>
+              <Link
+                to="/upload"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md ${
+                  location.pathname === '/upload' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
+                }`}
+              >
+                <Upload size={18} />
+                {!isSidebarCollapsed && <span>Unggah</span>}
+              </Link>
+            </div>
+          </div>
+
+          {/* Projects section */}
+          <div className="px-4">
+            <div className="text-xs font-medium text-muted-foreground mb-2">Projects</div>
+            <div className="flex flex-col gap-1">
+              <Link
+                to="/engineering"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
+              >
+                <Boxes size={18} />
+                {!isSidebarCollapsed && <span>Design Engineering</span>}
+              </Link>
+              <Link
+                to="/sales"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
+              >
+                <Phone size={18} />
+                {!isSidebarCollapsed && <span>Sales & Marketing</span>}
+              </Link>
+            </div>
+          </div>
+
+          {/* Support section */}
+          <div className="px-4">
+            <div className="text-xs font-medium text-muted-foreground mb-2">Support</div>
+            <div className="flex flex-col gap-1">
+              <Link
+                to="/help"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
+              >
+                <HelpCircle size={18} />
+                {!isSidebarCollapsed && <span>Support</span>}
+              </Link>
+              <Link
+                to="/feedback"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
+              >
+                <MessageSquare size={18} />
+                {!isSidebarCollapsed && <span>Feedback</span>}
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Bottom section */}
