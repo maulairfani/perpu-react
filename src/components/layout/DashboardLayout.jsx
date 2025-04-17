@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FileText, Menu, User, Settings, Search } from 'lucide-react';
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
   const location = useLocation();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
