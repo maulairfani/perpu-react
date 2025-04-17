@@ -12,4 +12,8 @@ export default defineConfig({
   optimizeDeps: {
     include: ['pdfjs-dist'],
   },
+  server: {
+    host: true,
+    allowedHosts: ['af659b4a-e25c-4d2e-bd0e-f4165b78fd62-00-8msh7urdqn2h.pike.replit.dev'],
+  },
 });
