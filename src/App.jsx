@@ -17,8 +17,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={
-          <DashboardLayout searchQuery={searchQuery} setSearchQuery={setSearchQuery}> {/* Passed search state */}
-            <Home />
+          <DashboardLayout searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
+            <Home searchQuery={searchQuery} />
           </DashboardLayout>
         } />
         <Route path="/view/:id" element={

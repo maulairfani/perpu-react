@@ -26,9 +26,8 @@ const allDocuments = [
   { id: 12, title: 'Undang-Undang Pembentukan Peraturan Perundang-undangan', year: 2011, number: 12, status: 'Tidak Berlaku' },
 ];
 
-const Home = () => {
+const Home = ({ searchQuery }) => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
