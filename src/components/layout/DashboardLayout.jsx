@@ -67,6 +67,11 @@ const DashboardLayout = ({ children }) => {
                 type="text"
                 placeholder="Search documents..."
                 className="pl-10 pr-4 py-1.5 rounded-md bg-muted/20 text-sm focus:outline-none focus:ring-1 focus:ring-primary w-[300px]"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
               />
             </div>
           </div>
