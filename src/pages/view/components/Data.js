@@ -1,4 +1,55 @@
 export default [
+  {
+    id: "pembukaan",
+    name: "Pembukaan",
+    type: "pembukaan",
+    children: [
+      {
+        id: "menimbang",
+        name: "Menimbang",
+        type: "menimbang",
+        children: [
+          {
+            id: "a",
+            name: "Huruf a",
+            type: "huruf",
+            content: "bahwa kebudayaan merupakan investasi untuk membangun masa depan dan peradaban bangsa sehingga perlu dilakukan pemajuan kebudayaan secara terencana, terpadu, dan berkelanjutan;"
+          },
+          {
+            id: "b",
+            name: "Huruf b",
+            type: "huruf",
+            content: "bahwa untuk memajukan kebudayaan nasional Indonesia, diperlukan langkah strategis dalam melakukan pemeliharaan, pengembangan, pemanfaatan, dan pembinaan kebudayaan melalui pelindungan, pengembangan, pemanfaatan, dan pembinaan kebudayaan;"
+          },
+          {
+            id: "c",
+            name: "Huruf c",
+            type: "huruf",
+            content: "bahwa berdasarkan pertimbangan sebagaimana dimaksud dalam huruf a dan huruf b, perlu membentuk Undang-Undang tentang Pemajuan Kebudayaan;"
+          }
+        ]
+      },
+      {
+        id: "mengingat",
+        name: "Mengingat",
+        type: "mengingat",
+        children: [
+          {
+            id: "1",
+            name: "Angka 1",
+            type: "angka",
+            content: "Pasal 18B ayat (2), Pasal 28C ayat (1), Pasal 28I ayat (3), Pasal 32 ayat (1) dan ayat (2), dan Pasal 36 Undang-Undang Dasar Negara Republik Indonesia Tahun 1945;"
+          },
+          {
+            id: "2",
+            name: "Angka 2",
+            type: "angka",
+            content: "Undang-Undang Nomor 11 Tahun 2010 tentang Cagar Budaya (Lembaran Negara Republik Indonesia Tahun 2010 Nomor 130, Tambahan Lembaran Negara Republik Indonesia Nomor 5168);"
+          }
+        ]
+      }
+    ]
+  },
     {
       id: "I",
       name: "BAB I",

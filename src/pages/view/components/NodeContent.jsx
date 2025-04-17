@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTree } from './context/TreeContext';
 
-/**
- * NodeContent component displays the content of a selected node
- * If the node is part of a Pasal, it displays all content from that Pasal
- * 
- * @param {Object} node - The node data containing content to display
- * @returns {JSX.Element} - Rendered content with appropriate styling
- */
+
 export default function NodeContent({ node }) {
   const { treeData } = useTree();
   const [pasalNode, setPasalNode] = useState(null);
@@ -39,14 +33,6 @@ export default function NodeContent({ node }) {
     }
   }, [node, treeData]);
   
-  /**
-   * Find the hierarchy path from root to the given node
-   * 
-   * @param {Array} nodes - The tree data to search in
-   * @param {Object} targetNode - The node to find the path for
-   * @param {Array} currentPath - The current path being built
-   * @returns {Array} - Array of nodes representing the path
-   */
   const findNodeHierarchy = (nodes, targetNode, currentPath = []) => {
     if (!nodes || !targetNode) return [];
     

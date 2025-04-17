@@ -3,8 +3,9 @@ import Sidebar from './components/Sidebar';
 import NodeContent from './components/NodeContent';
 import PDFViewer from './components/PDFViewer';
 import Header from './components/Header';
+import PreambleView from './components/PreambleView';
 import { ChevronLeft, ChevronRight, Menu } from 'lucide-react';
-import pdf from './components/UU0182003.pdf?url'
+import pdf from './components/UU0182003.pdf'
 import { useTree } from './components/context/TreeContext';
 import NodeFormModal from './components/modals/NodeFormModal';
 import DeleteConfirmationModal from './components/modals/DeleteConfirmationModal';
@@ -130,7 +131,6 @@ const View = () => {
           </div>
         </div>
         
-        {/* Sidebar toggle button moved to header */}
         
         {/* Main content area - displays selected node content */}
         <div 
@@ -142,7 +142,11 @@ const View = () => {
             <div className="rounded-xl border border-border/20 bg-white shadow-md hover:shadow-lg transition-shadow duration-300 p-6 h-full overflow-y-auto">
               {selectedNode ? (
                 <div className="h-full">
-                  <NodeContent node={selectedNode} />
+                  {selectedNode.type === 'pembukaan' ? (
+                    <PreambleView />
+                  ) : (
+                    <NodeContent node={selectedNode} />
+                  )}
                 </div>
               ) : (
                 <div className="flex items-center justify-center h-full text-foreground/80">

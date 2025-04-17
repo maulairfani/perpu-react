@@ -1,16 +1,7 @@
 import React from 'react';
 import { ArrowLeft, User, Menu } from 'lucide-react';
 
-/**
- * Header component for the View page
- * Contains logo, back button, document title, sidebar toggle, and profile icon
- * 
- * @param {string} documentTitle - The title of the document
- * @param {string} documentNumber - The document number and year
- * @param {Function} onToggleSidebar - Function to toggle sidebar visibility
- * @param {boolean} isSidebarCollapsed - Current state of sidebar visibility
- * @returns {JSX.Element} - Rendered header with all elements
- */
+
 const Header = ({ documentTitle, documentNumber, onToggleSidebar, isSidebarCollapsed }) => {
   return (
     <header className="w-full bg-white border-b border-border/10 shadow-sm py-3 px-6 z-10 relative">
@@ -27,7 +18,7 @@ const Header = ({ documentTitle, documentNumber, onToggleSidebar, isSidebarColla
           </button>
           
           {/* Logo */}
-          <div className="font-bold text-xl text-primary">Govnetics</div>
+          <div className="font-bold text-xl text-primary">Govnetic</div>
           
           {/* Back button */}
           <button 

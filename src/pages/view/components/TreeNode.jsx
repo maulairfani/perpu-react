@@ -3,24 +3,9 @@ import { ChevronRight, ChevronDown, FileText, Plus, Edit, Trash2, MoreHorizontal
 import useTreeNode from "./hooks/useTreeNode";
 import NodeChildren from "./NodeChildren";
 
-/**
- * TreeNode component renders a single node in the document tree structure
- * 
- * @param {Object} node - The node data to render
- * @param {number} level - The nesting level of this node (for indentation)
- * @param {boolean} isFirst - Whether this node is the first child in its parent
- * @param {boolean} isLast - Whether this node is the last child in its parent
- * @param {Function} onNodeSelect - Callback function when a node is selected
- * @param {Function} onAddNode - Callback function when adding a new node
- * @param {Function} onEditNode - Callback function when editing a node
- * @param {Function} onDeleteNode - Callback function when deleting a node
- * @param {Array} nodePath - Array of indices representing the path to this node
- */
 const TreeNode = ({ 
   node, 
   level = 0, 
-  isFirst, 
-  isLast, 
   onNodeSelect,
   onAddNode,
   onEditNode,
