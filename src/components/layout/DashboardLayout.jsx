@@ -13,7 +13,11 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
       <aside className={`fixed left-0 top-0 z-40 h-screen border-r border-border/10 bg-background transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-[240px]'}`}>
         {/* Logo section */}
         <div className="flex h-14 items-center px-4 border-b border-border/10">
-          <span className="text-xl font-semibold text-primary">Govnetic</span>
+          {isSidebarCollapsed ? (
+            <span className="text-xl font-semibold text-primary">G</span>
+          ) : (
+            <span className="text-xl font-semibold text-primary">Govnetic</span>
+          )}
         </div>
 
         {/* Main menu */}
