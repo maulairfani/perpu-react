@@ -1,7 +1,9 @@
 
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FileText, Menu, User, Settings, Search, Upload } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FileText, Menu, User, Settings, Search, Upload, LogOut } from 'lucide-react';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../services/firebase';
 
 const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
   const location = useLocation();
@@ -55,9 +57,19 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
               </div>
             )}
             {!isSidebarCollapsed && (
-              <button className="p-1.5 rounded-md hover:bg-muted/20">
-                <Settings size={18} className="text-muted-foreground" />
-              </button>
+              <div className="flex gap-1">
+                <button className="p-1.5 rounded-md hover:bg-muted/20">
+                  <Settings size={18} className="text-muted-foreground" />
+                </button>
+                <button 
+                  onClick={() => {
+                    signOut(auth);
+                  }} 
+                  className="p-1.5 rounded-md hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
             )}
           </div>
         </div>
