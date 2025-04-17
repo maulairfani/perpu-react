@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,
@@ -10,28 +10,7 @@ import {
   TableRow,
 } from '../../components/ui/table';
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
-
 import { documentService } from '../../services/api';
-
-const [allDocuments, setAllDocuments] = useState([]);
-const [isLoading, setIsLoading] = useState(true);
-const [error, setError] = useState(null);
-
-useEffect(() => {
-  const fetchDocuments = async () => {
-    try {
-      setIsLoading(true);
-      const documents = await documentService.getDocuments();
-      setAllDocuments(documents);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  fetchDocuments();
-}, []);
 
 const Home = ({ searchQuery }) => {
   const navigate = useNavigate();
@@ -39,7 +18,26 @@ const Home = ({ searchQuery }) => {
   const [sortField, setSortField] = useState('title');
   const [sortDirection, setSortDirection] = useState('asc');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [allDocuments, setAllDocuments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const itemsPerPage = 5;
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        setIsLoading(true);
+        const documents = await documentService.getDocuments();
+        setAllDocuments(documents);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
 
   const handleSort = (field) => {
     if (sortField === field) {
@@ -92,81 +90,82 @@ const Home = ({ searchQuery }) => {
         ) : error ? (
           <div className="p-8 text-center text-destructive">{error}</div>
         ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead 
-                className="w-[400px] cursor-pointer hover:bg-muted/20"
-                onClick={() => handleSort('title')}
-              >
-                <div className="flex items-center">
-                  Judul Dokumen
-                  {sortField === 'title' && (
-                    sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead 
+                  className="w-[400px] cursor-pointer hover:bg-muted/20"
+                  onClick={() => handleSort('title')}
+                >
+                  <div className="flex items-center">
+                    Judul Dokumen
+                    {sortField === 'title' && (
+                      sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className="cursor-pointer hover:bg-muted/20 w-[100px]"
+                  onClick={() => handleSort('year')}
+                >
+                  <div className="flex items-center">
+                    Tahun
+                    {sortField === 'year' && (
+                      sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className="cursor-pointer hover:bg-muted/20 w-[100px]"
+                  onClick={() => handleSort('number')}
+                >
+                  <div className="flex items-center">
+                    Nomor
+                    {sortField === 'number' && (
+                      sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
+                    )}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className="cursor-pointer"
+                  onClick={() => handleSort('status')}
+                >
+                  Status
+                  {sortField === 'status' && (
+                    sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
                   )}
-                </div>
-              </TableHead>
-              <TableHead 
-                className="cursor-pointer hover:bg-muted/20 w-[100px]"
-                onClick={() => handleSort('year')}
-              >
-                <div className="flex items-center">
-                  Tahun
-                  {sortField === 'year' && (
-                    sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
-                  )}
-                </div>
-              </TableHead>
-              <TableHead 
-                className="cursor-pointer hover:bg-muted/20 w-[100px]"
-                onClick={() => handleSort('number')}
-              >
-                <div className="flex items-center">
-                  Nomor
-                  {sortField === 'number' && (
-                    sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
-                  )}
-                </div>
-              </TableHead>
-              <TableHead 
-                className="cursor-pointer"
-                onClick={() => handleSort('status')}
-              >
-                Status
-                {sortField === 'status' && (
-                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
-                )}
-              </TableHead>
-              <TableHead className="w-[100px]">Aksi</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {documents.map((doc) => (
-              <TableRow key={doc.id}>
-                <TableCell>
-                  <div className="font-medium">{doc.title}</div>
-                </TableCell>
-                <TableCell>{doc.year}</TableCell>
-                <TableCell>{doc.number}</TableCell>
-                <TableCell>
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    doc.status === 'Berlaku' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  }`}>
-                    {doc.status}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <button
-                    onClick={() => navigate(`/view/${doc.id}`)}
-                    className="px-2.5 py-1 text-xs whitespace-nowrap bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-                  >
-                    Lihat Detail
-                  </button>
-                </TableCell>
+                </TableHead>
+                <TableHead className="w-[100px]">Aksi</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {documents.map((doc) => (
+                <TableRow key={doc.id}>
+                  <TableCell>
+                    <div className="font-medium">{doc.title}</div>
+                  </TableCell>
+                  <TableCell>{doc.year}</TableCell>
+                  <TableCell>{doc.number}</TableCell>
+                  <TableCell>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      doc.status === 'Berlaku' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    }`}>
+                      {doc.status}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <button
+                      onClick={() => navigate(`/view/${doc.id}`)}
+                      className="px-2.5 py-1 text-xs whitespace-nowrap bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                    >
+                      Lihat Detail
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
         <div className="flex items-center justify-between px-4 py-3 border-t">
           <div className="text-sm text-muted-foreground">
             Showing {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, filteredDocuments.length)} of {filteredDocuments.length} documents
@@ -188,7 +187,6 @@ const Home = ({ searchQuery }) => {
             </button>
           </div>
         </div>
-        )}
       </div>
     </div>
   );
