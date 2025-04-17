@@ -1,6 +1,7 @@
-import axios from 'axios';
 
-// const API_BASE_URL = import.meta.env.API_BASE_URL
+import axios from 'axios';
+import { auth } from './firebase';
+
 const API_BASE_URL = 'https://afba0aa7-ab05-4aeb-8b28-538b2c965ed0-00-3qxw5ozf8i6wf.pike.replit.dev/';
 
 const api = axios.create({
@@ -8,6 +9,20 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+});
+
+// Add request interceptor to include id-token
+api.interceptors.request.use(async (config) => {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const token = await user.getIdToken();
+      config.headers['id-token'] = token;
+    }
+    return config;
+  } catch (error) {
+    return Promise.reject(error);
+  }
 });
 
 export const documentService = {
