@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '../../components/ui/table';
-import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 
 const allDocuments = [
   { id: 1, title: 'Undang-Undang Pemajuan Kebudayaan', year: 2017, number: 5, status: 'Berlaku' },
@@ -29,13 +29,34 @@ const allDocuments = [
 const Home = ({ searchQuery }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortField, setSortField] = useState('title');
+  const [sortDirection, setSortDirection] = useState('asc');
+  const [statusFilter, setStatusFilter] = useState('all');
   const itemsPerPage = 5;
 
-  const filteredDocuments = allDocuments.filter(doc => 
-    doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    doc.year.toString().includes(searchQuery) ||
-    doc.number.toString().includes(searchQuery)
-  );
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const filteredDocuments = allDocuments
+    .filter(doc => 
+      (doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      doc.year.toString().includes(searchQuery) ||
+      doc.number.toString().includes(searchQuery)) &&
+      (statusFilter === 'all' || doc.status === statusFilter)
+    )
+    .sort((a, b) => {
+      const multiplier = sortDirection === 'asc' ? 1 : -1;
+      if (typeof a[sortField] === 'string') {
+        return multiplier * a[sortField].localeCompare(b[sortField]);
+      }
+      return multiplier * (a[sortField] - b[sortField]);
+    });
 
   const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
   const documents = filteredDocuments.slice(
@@ -47,19 +68,57 @@ const Home = ({ searchQuery }) => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Documents</h1>
-        <button className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
-          Add Document
-        </button>
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="px-3 py-1 border rounded-md text-sm"
+        >
+          <option value="all">All Status</option>
+          <option value="Berlaku">Berlaku</option>
+          <option value="Tidak Berlaku">Tidak Berlaku</option>
+        </select>
       </div>
 
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[400px]">Judul Dokumen</TableHead>
-              <TableHead>Tahun</TableHead>
-              <TableHead>Nomor</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead 
+                className="w-[400px] cursor-pointer"
+                onClick={() => handleSort('title')}
+              >
+                Judul Dokumen
+                {sortField === 'title' && (
+                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
+                )}
+              </TableHead>
+              <TableHead 
+                className="cursor-pointer"
+                onClick={() => handleSort('year')}
+              >
+                Tahun
+                {sortField === 'year' && (
+                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
+                )}
+              </TableHead>
+              <TableHead 
+                className="cursor-pointer"
+                onClick={() => handleSort('number')}
+              >
+                Nomor
+                {sortField === 'number' && (
+                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
+                )}
+              </TableHead>
+              <TableHead 
+                className="cursor-pointer"
+                onClick={() => handleSort('status')}
+              >
+                Status
+                {sortField === 'status' && (
+                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
+                )}
+              </TableHead>
               <TableHead className="w-[100px]">Aksi</TableHead>
             </TableRow>
           </TableHeader>
@@ -90,7 +149,6 @@ const Home = ({ searchQuery }) => {
             ))}
           </TableBody>
         </Table>
-
         <div className="flex items-center justify-between px-4 py-3 border-t">
           <div className="text-sm text-muted-foreground">
             Showing {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, filteredDocuments.length)} of {filteredDocuments.length} documents
