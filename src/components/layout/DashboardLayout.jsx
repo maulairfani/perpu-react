@@ -8,6 +8,7 @@ import { auth } from '../../services/firebase';
 const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
   const location = useLocation();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -57,18 +58,32 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
               </div>
             )}
             {!isSidebarCollapsed && (
-              <div className="flex gap-1">
-                <button className="p-1.5 rounded-md hover:bg-muted/20">
+              <div className="relative">
+                <button 
+                  onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                  className="p-1.5 rounded-md hover:bg-muted/20"
+                >
                   <Settings size={18} className="text-muted-foreground" />
                 </button>
-                <button 
-                  onClick={() => {
-                    signOut(auth);
-                  }} 
-                  className="p-1.5 rounded-md hover:bg-destructive/10 hover:text-destructive"
-                >
-                  <LogOut size={18} />
-                </button>
+                
+                {isSettingsOpen && (
+                  <div className="absolute right-0 bottom-12 w-48 bg-white rounded-lg shadow-lg z-10 py-1 border border-border/10">
+                    <div className="px-4 py-2 border-b border-border/10">
+                      <div className="text-sm font-medium">Admin User</div>
+                      <div className="text-xs text-muted-foreground">admin@govnetic.com</div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        signOut(auth);
+                        setIsSettingsOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-destructive hover:bg-destructive/10 flex items-center gap-2"
+                    >
+                      <LogOut size={16} />
+                      Log out
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
