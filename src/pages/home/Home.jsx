@@ -12,8 +12,11 @@ import {
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 
 const documents = [
-  { id: 1, title: 'UU No. 5 Tahun 2017', description: 'Tentang Pemajuan Kebudayaan', status: 'Done', target: 18, limit: 5, reviewer: 'Eddie Lake' },
-  { id: 2, title: 'UU No. 18 Tahun 2003', description: 'Tentang Advokat', status: 'In Progress', target: 29, limit: 24, reviewer: 'Jamik Tashpulatov' },
+  { id: 1, title: 'Undang-Undang Pemajuan Kebudayaan', year: 2017, number: 5, status: 'Berlaku' },
+  { id: 2, title: 'Undang-Undang Advokat', year: 2003, number: 18, status: 'Berlaku' },
+  { id: 3, title: 'Undang-Undang Sistem Pendidikan Nasional', year: 2003, number: 20, status: 'Tidak Berlaku' },
+  { id: 4, title: 'Undang-Undang Ketenagakerjaan', year: 2003, number: 13, status: 'Berlaku' },
+  { id: 5, title: 'Undang-Undang Perkawinan', year: 1974, number: 1, status: 'Berlaku' },
 ];
 
 const Home = () => {
@@ -32,39 +35,34 @@ const Home = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[300px]">Document Title</TableHead>
+              <TableHead className="w-[400px]">Judul Dokumen</TableHead>
+              <TableHead>Tahun</TableHead>
+              <TableHead>Nomor</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Target</TableHead>
-              <TableHead>Limit</TableHead>
-              <TableHead>Reviewer</TableHead>
-              <TableHead className="w-[50px]"></TableHead>
+              <TableHead className="w-[100px]">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {documents.map((doc) => (
               <TableRow key={doc.id}>
                 <TableCell>
-                  <div>
-                    <div className="font-medium">{doc.title}</div>
-                    <div className="text-sm text-muted-foreground">{doc.description}</div>
-                  </div>
+                  <div className="font-medium">{doc.title}</div>
                 </TableCell>
+                <TableCell>{doc.year}</TableCell>
+                <TableCell>{doc.number}</TableCell>
                 <TableCell>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    doc.status === 'Done' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    doc.status === 'Berlaku' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                   }`}>
                     {doc.status}
                   </span>
                 </TableCell>
-                <TableCell>{doc.target}</TableCell>
-                <TableCell>{doc.limit}</TableCell>
-                <TableCell>{doc.reviewer}</TableCell>
                 <TableCell>
                   <button
                     onClick={() => navigate(`/view/${doc.id}`)}
-                    className="p-2 hover:bg-muted/20 rounded-md"
+                    className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                   >
-                    <MoreHorizontal size={16} />
+                    Lihat Detail
                   </button>
                 </TableCell>
               </TableRow>
@@ -74,7 +72,7 @@ const Home = () => {
 
         <div className="flex items-center justify-between px-4 py-3 border-t">
           <div className="text-sm text-muted-foreground">
-            Showing 1-2 of 2 documents
+            Showing 1-5 of 5 documents
           </div>
           <div className="flex items-center gap-2">
             <button className="p-1 rounded hover:bg-muted/20" disabled>
