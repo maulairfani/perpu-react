@@ -16,14 +16,17 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
       <aside className={`fixed left-0 top-0 z-40 h-screen border-r border-border/10 bg-background transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-[240px]'}`}>
         {/* Logo section */}
         <div className="flex h-14 items-center px-4 border-b border-border/10">
-          {isSidebarCollapsed ? (
-            <span className="text-xl font-semibold text-primary">G</span>
-          ) : (
-            <div className="flex flex-col">
-              <span className="text-lg font-semibold text-primary">Govnetic</span>
-              <span className="text-xs text-muted-foreground">Admin Dashboard</span>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+              <Boxes size={20} className="text-white" />
             </div>
-          )}
+            {!isSidebarCollapsed && (
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold text-primary">Govnetic</span>
+                <span className="text-xs text-muted-foreground">Admin Dashboard</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Main menu */}
@@ -42,20 +45,6 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
                 {!isSidebarCollapsed && <span>Dokumen</span>}
               </Link>
               <Link
-                to="/history"
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
-              >
-                <History size={18} />
-                {!isSidebarCollapsed && <span>Riwayat</span>}
-              </Link>
-              <Link
-                to="/starred"
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
-              >
-                <Star size={18} />
-                {!isSidebarCollapsed && <span>Berbintang</span>}
-              </Link>
-              <Link
                 to="/upload"
                 className={`flex items-center gap-3 px-3 py-2 rounded-md ${
                   location.pathname === '/upload' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
@@ -63,48 +52,6 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
               >
                 <Upload size={18} />
                 {!isSidebarCollapsed && <span>Unggah</span>}
-              </Link>
-            </div>
-          </div>
-
-          {/* Projects section */}
-          <div className="px-4">
-            <div className="text-xs font-medium text-muted-foreground mb-2">Projects</div>
-            <div className="flex flex-col gap-1">
-              <Link
-                to="/engineering"
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
-              >
-                <Boxes size={18} />
-                {!isSidebarCollapsed && <span>Design Engineering</span>}
-              </Link>
-              <Link
-                to="/sales"
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
-              >
-                <Phone size={18} />
-                {!isSidebarCollapsed && <span>Sales & Marketing</span>}
-              </Link>
-            </div>
-          </div>
-
-          {/* Support section */}
-          <div className="px-4">
-            <div className="text-xs font-medium text-muted-foreground mb-2">Support</div>
-            <div className="flex flex-col gap-1">
-              <Link
-                to="/help"
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
-              >
-                <HelpCircle size={18} />
-                {!isSidebarCollapsed && <span>Support</span>}
-              </Link>
-              <Link
-                to="/feedback"
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-foreground/70 hover:bg-primary/10 hover:text-primary`}
-              >
-                <MessageSquare size={18} />
-                {!isSidebarCollapsed && <span>Feedback</span>}
               </Link>
             </div>
           </div>
