@@ -19,7 +19,10 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
           {isSidebarCollapsed ? (
             <span className="text-xl font-semibold text-primary">G</span>
           ) : (
-            <span className="text-xl font-semibold text-primary">Govnetic</span>
+            <div className="flex flex-col">
+              <span className="text-lg font-semibold text-primary">Govnetic</span>
+              <span className="text-xs text-muted-foreground">Admin Dashboard</span>
+            </div>
           )}
         </div>
 
