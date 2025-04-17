@@ -60,7 +60,7 @@ const Home = () => {
                 <TableCell>
                   <button
                     onClick={() => navigate(`/view/${doc.id}`)}
-                    className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                    className="px-2.5 py-1 text-xs whitespace-nowrap bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                   >
                     Lihat Detail
                   </button>
