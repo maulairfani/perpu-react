@@ -12,7 +12,7 @@ import {
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { documentService } from '../../services/api';
 
-const Home = ({ searchQuery }) => {
+const Home = ({ searchQuery = '' }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState('title');
