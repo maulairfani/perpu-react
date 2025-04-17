@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FileText, Menu, User, Settings, Search } from 'lucide-react';
+import { FileText, Menu, User, Settings, Search, Upload } from 'lucide-react';
 
 const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
   const location = useLocation();
@@ -30,6 +30,15 @@ const DashboardLayout = ({ children, searchQuery, setSearchQuery }) => {
           >
             <FileText size={20} />
             {!isSidebarCollapsed && <span>Documents</span>}
+          </Link>
+          <Link
+            to="/upload"
+            className={`flex items-center gap-3 mx-2 px-3 py-2 rounded-md ${
+              location.pathname === '/upload' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
+            }`}
+          >
+            <Upload size={20} />
+            {!isSidebarCollapsed && <span>Unggah Dokumen</span>}
           </Link>
         </div>
 

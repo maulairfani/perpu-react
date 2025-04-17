@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import View from './pages/view/View'
 import Home from './pages/home/Home'
+import Upload from './pages/upload/Upload'
 import DashboardLayout from './components/layout/DashboardLayout'
 import { TreeProvider } from './pages/view/components/context/TreeContext'
 import { useEffect, useState } from 'react' // Added useState import
@@ -19,6 +20,11 @@ function App() {
         <Route path="/" element={
           <DashboardLayout searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
             <Home searchQuery={searchQuery} />
+          </DashboardLayout>
+        } />
+        <Route path="/upload" element={
+          <DashboardLayout searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
+            <Upload />
           </DashboardLayout>
         } />
         <Route path="/view/:id" element={
