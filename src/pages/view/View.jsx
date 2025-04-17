@@ -58,7 +58,7 @@ const View = () => {
   const [nodeForModal, setNodeForModal] = useState(null);
 
   // Get tree data and operations from context
-  const { treeData, addNode, editNode, deleteNode } = useTree();
+  const { treeData, setTreeData, addNode, editNode, deleteNode } = useTree();
   
   // Set initial selected node to Pasal 1
   useEffect(() => {
