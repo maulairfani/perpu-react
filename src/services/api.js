@@ -69,4 +69,14 @@ export const documentService = {
       throw new Error('Gagal mengambil metadata dokumen: ' + error.message);
     }
   },
+
+  // Mengambil daftar dokumen
+  getDocuments: async () => {
+    try {
+      const response = await api.get('/documents');
+      return response.data.documents;
+    } catch (error) {
+      throw new Error('Gagal mengambil daftar dokumen: ' + error.message);
+    }
+  }
 };

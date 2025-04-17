@@ -11,20 +11,27 @@ import {
 } from '../../components/ui/table';
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 
-const allDocuments = [
-  { id: 1, title: 'Undang-Undang Pemajuan Kebudayaan', year: 2017, number: 5, status: 'Berlaku' },
-  { id: 2, title: 'Undang-Undang Advokat', year: 2003, number: 18, status: 'Berlaku' },
-  { id: 3, title: 'Undang-Undang Sistem Pendidikan Nasional', year: 2003, number: 20, status: 'Tidak Berlaku' },
-  { id: 4, title: 'Undang-Undang Ketenagakerjaan', year: 2003, number: 13, status: 'Berlaku' },
-  { id: 5, title: 'Undang-Undang Perkawinan', year: 1974, number: 1, status: 'Berlaku' },
-  { id: 6, title: 'Undang-Undang Pemerintahan Daerah', year: 2014, number: 23, status: 'Berlaku' },
-  { id: 7, title: 'Undang-Undang Cipta Kerja', year: 2020, number: 11, status: 'Berlaku' },
-  { id: 8, title: 'Undang-Undang Pemilu', year: 2017, number: 7, status: 'Berlaku' },
-  { id: 9, title: 'Undang-Undang Administrasi Pemerintahan', year: 2014, number: 30, status: 'Berlaku' },
-  { id: 10, title: 'Undang-Undang Pertanahan', year: 1960, number: 5, status: 'Berlaku' },
-  { id: 11, title: 'Undang-Undang Kewarganegaraan', year: 2006, number: 12, status: 'Berlaku' },
-  { id: 12, title: 'Undang-Undang Pembentukan Peraturan Perundang-undangan', year: 2011, number: 12, status: 'Tidak Berlaku' },
-];
+import { documentService } from '../../services/api';
+
+const [allDocuments, setAllDocuments] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+  const fetchDocuments = async () => {
+    try {
+      setIsLoading(true);
+      const documents = await documentService.getDocuments();
+      setAllDocuments(documents);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchDocuments();
+}, []);
 
 const Home = ({ searchQuery }) => {
   const navigate = useNavigate();
@@ -80,6 +87,11 @@ const Home = ({ searchQuery }) => {
       </div>
 
       <div className="border rounded-lg">
+        {isLoading ? (
+          <div className="p-8 text-center text-muted-foreground">Loading documents...</div>
+        ) : error ? (
+          <div className="p-8 text-center text-destructive">{error}</div>
+        ) : (
         <Table>
           <TableHeader>
             <TableRow>
@@ -176,6 +188,7 @@ const Home = ({ searchQuery }) => {
             </button>
           </div>
         </div>
+        )}
       </div>
     </div>
   );
