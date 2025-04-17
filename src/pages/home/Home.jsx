@@ -84,31 +84,37 @@ const Home = ({ searchQuery }) => {
           <TableHeader>
             <TableRow>
               <TableHead 
-                className="w-[400px] cursor-pointer"
+                className="w-[400px] cursor-pointer hover:bg-muted/20"
                 onClick={() => handleSort('title')}
               >
-                Judul Dokumen
-                {sortField === 'title' && (
-                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
-                )}
+                <div className="flex items-center">
+                  Judul Dokumen
+                  {sortField === 'title' && (
+                    sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
+                  )}
+                </div>
               </TableHead>
               <TableHead 
-                className="cursor-pointer"
+                className="cursor-pointer hover:bg-muted/20 w-[100px]"
                 onClick={() => handleSort('year')}
               >
-                Tahun
-                {sortField === 'year' && (
-                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
-                )}
+                <div className="flex items-center">
+                  Tahun
+                  {sortField === 'year' && (
+                    sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
+                  )}
+                </div>
               </TableHead>
               <TableHead 
-                className="cursor-pointer"
+                className="cursor-pointer hover:bg-muted/20 w-[100px]"
                 onClick={() => handleSort('number')}
               >
-                Nomor
-                {sortField === 'number' && (
-                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1 w-4 h-4" /> : <ChevronDown className="inline ml-1 w-4 h-4" />
-                )}
+                <div className="flex items-center">
+                  Nomor
+                  {sortField === 'number' && (
+                    sortDirection === 'asc' ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
+                  )}
+                </div>
               </TableHead>
               <TableHead 
                 className="cursor-pointer"
