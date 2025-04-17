@@ -1,68 +1,79 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FileText, Menu, User, ArrowLeft } from 'lucide-react';
+import { FileText, Menu, User, Settings, Search } from 'lucide-react';
 
 const DashboardLayout = ({ children }) => {
   const location = useLocation();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed);
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="w-full bg-white border-b border-border/10 shadow-sm py-3 px-6 z-10 relative">
-        <div className="flex items-center justify-between max-w-screen-2xl mx-auto">
-          {/* Left section: Logo, sidebar toggle and back button */}
-          <div className="flex items-center gap-4">
-            {/* Sidebar toggle button */}
-            <button
-              onClick={toggleSidebar}
-              className="p-2 rounded-md hover:bg-primary/10 text-primary transition-colors duration-200"
-              aria-label={isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            >
-              <Menu size={16} />
-            </button>
-            
-            {/* Logo */}
-            <div className="font-bold text-xl text-primary">Govnetic</div>
-          </div>
-          
-          {/* Right section: Profile icon */}
-          <div>
-            <button className="p-2 rounded-full hover:bg-muted/20 transition-colors duration-200">
-              <User size={20} className="text-primary" />
-            </button>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 z-40 h-screen border-r border-border/10 bg-background transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-[240px]'}`} style={{ marginTop: '61px' }}>
-        <div className="flex flex-col gap-0.5 py-2">
-          <div className={`px-3 py-2 ${isSidebarCollapsed ? 'hidden' : ''}`}>
-            <span className="text-xs font-medium text-muted-foreground">MENU</span>
+      <aside className={`fixed left-0 top-0 z-40 h-screen border-r border-border/10 bg-background transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-[240px]'}`}>
+        {/* Logo section */}
+        <div className="flex h-14 items-center px-4 border-b border-border/10">
+          <span className="text-base font-semibold text-primary">Govnetic</span>
+        </div>
+
+        {/* Main menu */}
+        <div className="flex flex-col gap-1 py-4">
+          <Link
+            to="/"
+            className={`flex items-center gap-3 mx-2 px-3 py-2 rounded-md ${
+              location.pathname === '/' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
+            }`}
+          >
+            <FileText size={20} />
+            {!isSidebarCollapsed && <span>Documents</span>}
+          </Link>
+        </div>
+
+        {/* Bottom section */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border/10">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+              <User size={20} className="text-primary" />
+            </div>
+            {!isSidebarCollapsed && (
+              <div className="flex-1">
+                <div className="text-sm font-medium">Admin User</div>
+                <div className="text-xs text-muted-foreground">admin@govnetic.com</div>
+              </div>
+            )}
+            {!isSidebarCollapsed && (
+              <button className="p-1.5 rounded-md hover:bg-muted/20">
+                <Settings size={18} className="text-muted-foreground" />
+              </button>
+            )}
           </div>
-          <nav className="px-2">
-            <Link
-              to="/"
-              className={`flex items-center space-x-3 rounded-md px-3 py-2 text-sm transition-colors ${
-                location.pathname === '/' ? 'bg-primary text-primary-foreground' : 'text-foreground/70 hover:bg-primary/10 hover:text-primary'
-              }`}
-            >
-              <FileText size={16} />
-              {!isSidebarCollapsed && <span>Dokumen</span>}
-            </Link>
-          </nav>
         </div>
       </aside>
 
       {/* Main content */}
-      <main className={`transition-all duration-300 ${isSidebarCollapsed ? 'pl-16' : 'pl-[240px]'}`} style={{ marginTop: '61px' }}>
-        <div className="min-h-screen bg-background">
+      <main className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-16' : 'ml-[240px]'}`}>
+        {/* Header */}
+        <header className="h-14 border-b border-border/10 bg-background px-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+              className="p-2 rounded-md hover:bg-primary/10 text-primary transition-colors duration-200"
+            >
+              <Menu size={20} />
+            </button>
+            <div className="relative">
+              <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search documents..."
+                className="pl-10 pr-4 py-1.5 rounded-md bg-muted/20 text-sm focus:outline-none focus:ring-1 focus:ring-primary w-[300px]"
+              />
+            </div>
+          </div>
+        </header>
+
+        {/* Page content */}
+        <div className="p-6">
           {children}
         </div>
       </main>
