@@ -19,7 +19,7 @@ const Home = () => {
   const [sortField, setSortField] = useState('title');
   const [sortDirection, setSortDirection] = useState('asc');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [allDocuments, setAllDocuments] = useState([]);
+  const [allDocuments, setAllDocuments] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const itemsPerPage = 5;
@@ -49,8 +49,8 @@ const Home = () => {
     }
   };
 
-  const filteredDocuments = allDocuments
-    .filter(doc => 
+  const filteredDocuments = allDocuments 
+    ? allDocuments.filter(doc => 
       (doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.year.toString().includes(searchQuery) ||
       doc.number.toString().includes(searchQuery)) &&
@@ -62,7 +62,8 @@ const Home = () => {
         return multiplier * a[sortField].localeCompare(b[sortField]);
       }
       return multiplier * (a[sortField] - b[sortField]);
-    });
+    })
+    : [];
 
   const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
   const documents = filteredDocuments.slice(
