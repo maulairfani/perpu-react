@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 
@@ -40,25 +41,32 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
     onSubmit(formData);
   };
 
+  const handleClose = () => {
+    setFormData({
+      name: '',
+      type: '',
+      content: '',
+      explanation: ''
+    });
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg">
-        {/* Modal header */}
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={handleClose}>
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-700 to-blue-400">
           <h3 className="text-lg font-semibold text-white">{title}</h3>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="text-white/80 hover:text-white rounded-full p-1 hover:bg-white/10 transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
-        {/* Modal form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Node name field */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-700">
               Node Name <span className="text-red-500">*</span>
@@ -71,6 +79,7 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
               onChange={handleChange}
               className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
+              autoFocus
             />
           </div>
 
@@ -83,7 +92,6 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
 
           {(!formData.type || formData.type === 'pasal' || formData.type === 'ayat') && (
             <>
-              {/* Content field */}
               <div>
                 <label htmlFor="content" className="block text-sm font-medium mb-2 text-gray-700">
                   Content
@@ -94,12 +102,11 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
                   value={formData.content}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                   placeholder="Enter content here..."
                 />
               </div>
 
-              {/* Explanation field */}
               <div>
                 <label htmlFor="explanation" className="block text-sm font-medium mb-2 text-gray-700">
                   Explanation
@@ -110,7 +117,7 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
                   value={formData.explanation}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                   placeholder="Enter explanation here..."
                 />
               </div>
@@ -123,11 +130,10 @@ const NodeFormModal = ({ isOpen, onClose, onSubmit, initialData, title }) => {
             </div>
           )}
 
-          {/* Form actions */}
           <div className="flex justify-end gap-3 pt-4 border-t">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               Cancel
