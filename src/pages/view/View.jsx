@@ -9,8 +9,35 @@ import pdf from './components/UU0182003.pdf'
 import { useTree } from './components/context/TreeContext';
 import NodeFormModal from './components/modals/NodeFormModal';
 import DeleteConfirmationModal from './components/modals/DeleteConfirmationModal';
+import { useParams } from 'react-router-dom';
+import { documentService } from '../../services/api';
 
 const View = () => {
+  const { id } = useParams();
+  const [documentDetail, setDocumentDetail] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDocumentDetail = async () => {
+      try {
+        setIsLoading(true);
+        const data = await documentService.getDocumentDetail(id);
+        setDocumentDetail(data);
+        // Initialize tree data from API response
+        if (data.tree_data) {
+          // Assuming you have a setTreeData function in TreeContext
+          setTreeData(data.tree_data);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDocumentDetail();
+  }, [id]);
   // Fixed width for the left sidebar
   const SIDEBAR_WIDTH = 320;
   
@@ -105,12 +132,24 @@ const View = () => {
 
   // Use local PDF file to avoid CORS issues
   const pdfUrl = pdf;
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="flex items-center justify-center h-screen text-red-500">{error}</div>;
+  }
+
+  if (!documentDetail) {
+    return <div className="flex items-center justify-center h-screen">Document not found</div>;
+  }
+
   return (
     <div className="flex flex-col h-screen w-full bg-background overflow-hidden">
       {/* Header with sidebar toggle */}
       <Header 
-        documentTitle="Undang-Undang" 
-        documentNumber="No. 5 Tahun 2017" 
+        documentTitle={documentDetail.title}
+        documentNumber={`No. ${documentDetail.number} Tahun ${documentDetail.year}`} 
         onToggleSidebar={toggleSidebar}
         isSidebarCollapsed={isSidebarCollapsed}
       />

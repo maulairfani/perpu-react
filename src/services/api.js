@@ -45,5 +45,15 @@ export const documentService = {
     } catch (error) {
       throw new Error('Gagal mengambil daftar dokumen: ' + error.message);
     }
+  },
+
+  // Mengambil detail dokumen
+  getDocumentDetail: async (documentId) => {
+    try {
+      const response = await api.get(`/api/v1/admin/documents/${documentId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error('Gagal mengambil detail dokumen: ' + error.message);
+    }
   }
 };
