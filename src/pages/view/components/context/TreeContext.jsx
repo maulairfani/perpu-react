@@ -89,6 +89,7 @@ export function TreeProvider({ children }) {
   // Context value with tree data, loading state, error, and operations
   const contextValue = {
     treeData,
+    setTreeData,
     isLoading,
     error,
     findNodeByPath,
