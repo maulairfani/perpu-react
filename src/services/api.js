@@ -17,7 +17,8 @@ api.interceptors.request.use(async (config) => {
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      config.headers['id-token'] = token;
+      // config.headers['id-token'] = token;
+      config.headers['test-uid'] = "#test-uid"
     }
     return config;
   } catch (error) {
