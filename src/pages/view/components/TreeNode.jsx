@@ -41,8 +41,12 @@ const TreeNode = ({
     };
   }, []);
 
-  // Derive nodeTitle from node object.  This is a crucial addition.
-  const nodeTitle = node.type && node.name ? `${node.name}` : node.id;
+  // Derive nodeTitle from node object with proper formatting
+  const nodeTitle = node.type === 'ayat' && node.number ? 
+    `${node.name} ${node.number}` : 
+    node.title ? 
+      `${node.name} ${node.title}` : 
+      node.name || node.id;
 
 
   return (
