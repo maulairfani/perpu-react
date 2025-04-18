@@ -60,14 +60,15 @@ export const documentService = {
 
   updateNode: async (documentId, nodeId, nodeData) => {
     try {
-      console.log(documentId)
-      console.log(nodeId)
-      console.log(nodeData)
-      const response = await api.post('/api/v1/admin/documents/update', {
-        doc_id: documentId,
-        node_id: nodeId,
-        node_update: nodeData
-      });
+      console.log(documentId);
+      console.log(nodeId);
+      console.log(nodeData);
+
+      const response = await api.post(
+        `/api/v1/admin/documents/update?doc_id=${documentId}&node_id=${nodeId}`,
+        nodeData
+      );
+
       return response.data;
     } catch (error) {
       throw new Error('Gagal mengupdate node: ' + error.message);
