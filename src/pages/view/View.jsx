@@ -25,9 +25,9 @@ const View = () => {
         const data = await documentService.getDocumentDetail(id);
         setDocumentDetail(data);
         // Initialize tree data from API response
-        if (data.tree_data) {
+        if (data.treeData) {
           // Assuming you have a setTreeData function in TreeContext
-          setTreeData(data.tree_data);
+          setTreeData(data.treeData);
         }
       } catch (err) {
         setError(err.message);

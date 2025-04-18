@@ -142,7 +142,7 @@ const Home = () => {
             </TableHeader>
             <TableBody>
               {documents.map((doc) => (
-                <TableRow key={doc.id}>
+                <TableRow key={doc.docId}>
                   <TableCell>
                     <div className="font-medium">{doc.title}</div>
                   </TableCell>
@@ -157,7 +157,7 @@ const Home = () => {
                   </TableCell>
                   <TableCell>
                     <button
-                      onClick={() => navigate(`/view/${doc.id}`)}
+                      onClick={() => navigate(`/view/${doc.docId}`)}
                       className="px-2.5 py-1 text-xs whitespace-nowrap bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                     >
                       Lihat Detail
