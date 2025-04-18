@@ -123,7 +123,14 @@ const View = () => {
   const handleEditSubmit = async (formData) => {
     try {
       if (nodeForModal?.id) {
-        await documentService.updateNode(id, nodeForModal.id, formData);
+        const nodeUpdate = {
+          name: formData.name,
+          type: formData.type,
+          title: formData.title,
+          content: formData.content,
+          explanation: formData.explanation
+        };
+        await documentService.updateNode(id, nodeForModal.id, nodeUpdate);
         editNode(selectedNodePath, formData);
         setIsEditModalOpen(false);
       }
