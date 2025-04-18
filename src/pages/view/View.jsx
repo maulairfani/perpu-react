@@ -120,9 +120,12 @@ const View = () => {
     setIsAddModalOpen(false);
   };
 
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const handleEditSubmit = async (formData) => {
     try {
       if (nodeForModal?.id) {
+        setIsUpdating(true);
         const nodeUpdate = {
           name: formData.name,
           type: formData.type,
@@ -136,7 +139,8 @@ const View = () => {
       }
     } catch (error) {
       console.error('Failed to update node:', error);
-      // You may want to show an error notification here
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -247,6 +251,7 @@ const View = () => {
         onSubmit={handleEditSubmit}
         initialData={nodeForModal}
         title="Edit Node"
+        isUpdating={isUpdating}
       />
       
       <DeleteConfirmationModal 
