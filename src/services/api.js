@@ -60,10 +60,13 @@ export const documentService = {
 
   updateNode: async (documentId, nodeId, nodeData) => {
     try {
+      console.log(documentId)
+      console.log(nodeId)
+      console.log(nodeData)
       const response = await api.post('/api/v1/admin/documents/update', {
         doc_id: documentId,
         node_id: nodeId,
-        ...nodeData
+        node_update: nodeData
       });
       return response.data;
     } catch (error) {
