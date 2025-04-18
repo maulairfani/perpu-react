@@ -56,5 +56,14 @@ export const documentService = {
     } catch (error) {
       throw new Error('Gagal mengambil detail dokumen: ' + error.message);
     }
+  },
+
+  updateNode: async (documentId, nodeId, nodeData) => {
+    try {
+      const response = await api.put(`/api/v1/admin/documents/${documentId}/nodes/${nodeId}`, nodeData);
+      return response.data;
+    } catch (error) {
+      throw new Error('Gagal mengupdate node: ' + error.message);
+    }
   }
 };

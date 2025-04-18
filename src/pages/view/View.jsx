@@ -120,9 +120,17 @@ const View = () => {
     setIsAddModalOpen(false);
   };
 
-  const handleEditSubmit = (formData) => {
-    editNode(selectedNodePath, formData);
-    setIsEditModalOpen(false);
+  const handleEditSubmit = async (formData) => {
+    try {
+      if (nodeForModal?.id) {
+        await documentService.updateNode(id, nodeForModal.id, formData);
+        editNode(selectedNodePath, formData);
+        setIsEditModalOpen(false);
+      }
+    } catch (error) {
+      console.error('Failed to update node:', error);
+      // You may want to show an error notification here
+    }
   };
 
   const handleDeleteConfirm = () => {
